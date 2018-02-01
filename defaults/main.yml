@@ -25,3 +25,4 @@ with_auth_request: true
 with_addition: true
 with_gunzip: true
 with_postgres: true
+error_log_path: "/var/log/nginx/error.log"

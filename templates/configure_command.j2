@@ -3,7 +3,7 @@ mkdir /var/lib/nginx
 ./configure \
 --pid-path=/var/run/nginx.pid \
 --lock-path=/var/lock/nginx.lock \
---error-log-path=/var/log/nginx/error.log \
+--error-log-path={{ error_log_path }} \
 {% if with_luajit %} --with-luajit {% endif %}
 {% if with_dav %} --with-http_dav_module {% endif %}
 {% if with_flv %} --with-http_flv_module {% endif %}

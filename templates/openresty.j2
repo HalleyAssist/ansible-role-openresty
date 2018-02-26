@@ -22,6 +22,7 @@ ExecStart=/usr/local/openresty/bin/openresty -g 'daemon on; master_process on;'
 ExecReload=/usr/local/openresty/bin/openresty -g 'daemon on; master_process on;' -s reload
 ExecStop=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /var/run/nginx.pid
 TimeoutStopSec=5
+TimeoutStartSec=3
 KillMode=mixed
 
 [Install]

@@ -3,6 +3,21 @@
 openresty_version: 1.11.2.5
 openresty_download_url: https://openresty.org/download/openresty-
 openresty_configure_only: False
+openresty_build_packages:
+ - build-essential
+ - libreadline-dev
+ - make
+ - libncurses5-dev
+ - libpcre3-dev
+ - libssl-dev
+ - perl
+ - libxml2-dev     #Optional
+ - libxslt-dev     #Optional
+ - libgd-dev       #Optional
+ - libgeoip-dev    #Optional
+ - libpq-dev       #Optional
+ - libgd2-xpm-dev  #Optional
+ - libxslt1-dev    #Optional
 with_luajit: true
 with_dav: true
 with_flv: true

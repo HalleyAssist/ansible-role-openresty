@@ -1,20 +1,23 @@
 ---
 - stat: path=/tmp/openresty.tar.gz
   register: resty_tar
+  when: openresty_configure_only == False
 
 - stat: path=/usr/sbin/nginx
   register: resty_exe
+  when: openresty_configure_only == False
 
 # meta_end_play in 2.2 gist.github.com/jimi-c/c45b225e101fe673e42ffb719f259fbd
 - name: Check if openresty already installed...
   shell: /usr/local/openresty/bin/openresty -v
   register: nginx_ver
   ignore_errors: yes
+  when: openresty_configure_only == False
 
 - name: Update apt
   sudo: yes
   apt: update_cache=yes
-  when: nginx_ver.stderr.find(openresty_version) == -1
+  when: nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Install required packages to compile Openresty from source
   apt: name={{ item }}
@@ -33,31 +36,31 @@
     - libpq-dev       #Optional
     - libgd2-xpm-dev  #Optional
     - libxslt1-dev    #Optional
-  when: nginx_ver.stderr.find(openresty_version) == -1
+  when: nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Download Openresty source
   get_url: url={{ openresty_download_url }}{{ openresty_version }}.tar.gz dest=/tmp/openresty-{{ openresty_version }}.tar.gz mode=0440
-  when: nginx_ver.stderr.find(openresty_version) == -1 and resty_tar.stat.exists == False
+  when: nginx_ver.stderr.find(openresty_version) == -1 and resty_tar.stat.exists == False and openresty_configure_only == False
 
 - name: Extract Openresty tarball
   unarchive: src=/tmp/openresty-{{ openresty_version }}.tar.gz dest=/tmp/ copy=no
-  when: nginx_ver.stderr.find(openresty_version) == -1 and resty_tar.stat.exists == False
+  when: nginx_ver.stderr.find(openresty_version) == -1 and resty_tar.stat.exists == False and openresty_configure_only == False
 
 - name: Build configure command
   template: src=configure_command.j2 dest=/tmp/openresty-{{ openresty_version }}/ansible_build.sh mode=0777
-  when: nginx_ver.stderr.find(openresty_version) == -1
+  when: nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Configure Openresty
   command: chdir=/tmp/openresty-{{ openresty_version }} ./ansible_build.sh
-  when: nginx_ver.stderr.find(openresty_version) == -1
+  when: nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Compile Openresty
   command: chdir=/tmp/openresty-{{ openresty_version }} make
-  when: nginx_ver.stderr.find(openresty_version) == -1
+  when: nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Install Openresty
   command: chdir=/tmp/openresty-{{ openresty_version }} make install
-  when: nginx_ver.stderr.find(openresty_version) == -1
+  when: nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - find:
     paths: /usr/local/openresty/bin

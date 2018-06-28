@@ -69,3 +69,6 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Create nginx temp directory
+  file: path=/var/lib/nginx state=directory

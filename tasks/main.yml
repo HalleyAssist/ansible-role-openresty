@@ -20,8 +20,8 @@
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1
 
 - name: Install required packages to compile Openresty from source
-  apt: name={{ item }}
-  with_items: "{{openresty_build_packages}}"
+  apt: 
+    name: "{{openresty_build_packages}}"
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1
 
 - name: Download Openresty source

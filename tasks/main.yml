@@ -18,11 +18,15 @@
   sudo: yes
   apt: update_cache=yes
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1
+  tags:
+   - package_install
 
 - name: Install required packages to compile Openresty from source
   apt: 
     name: "{{openresty_build_packages}}"
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1
+  tags:
+   - package_install
 
 - name: Download Openresty source
   get_url: url={{ openresty_download_url }}{{ openresty_version }}.tar.gz dest=/tmp/openresty-{{ openresty_version }}.tar.gz mode=0440

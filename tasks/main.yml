@@ -43,19 +43,19 @@
 - name: Configure Openresty
   command: chdir=/tmp/openresty-{{ openresty_version }} ./ansible_build.sh
   environment:
-    CFLAGS: "-O3 -march=native"
+    CFLAGS: "{{openresty_cflags}}"
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Compile Openresty
   command: chdir=/tmp/openresty-{{ openresty_version }} make
   environment:
-    CFLAGS: "-O3 -march=native"
+    CFLAGS: "{{openresty_cflags}}"
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - name: Install Openresty
   command: chdir=/tmp/openresty-{{ openresty_version }} make install
   environment:
-    CFLAGS: "-O3 -march=native"
+    CFLAGS: "{{openresty_cflags}}"
   when: openresty_configure_only == False and nginx_ver.stderr.find(openresty_version) == -1 and openresty_configure_only == False
 
 - find:

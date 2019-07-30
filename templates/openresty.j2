@@ -17,6 +17,7 @@ After=network.target
 [Service]
 Type=forking
 PIDFile=/var/run/nginx.pid
+AmbientCapabilities=CAP_NET_ADMIN
 ExecStartPre=/usr/local/openresty/bin/openresty -t -q -g 'daemon on; master_process on;'
 ExecStart=/usr/local/openresty/bin/openresty -g 'daemon on; master_process on;'
 ExecReload=/usr/local/openresty/bin/openresty -g 'daemon on; master_process on;' -s reload
